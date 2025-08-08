@@ -20,6 +20,8 @@ describe('useCounter', () => {
     const { result } = renderHook(() => useCounter());
     act(() => {
       result.current.setVal(5);
+    });
+    act(() => {
       result.current.increment();
     });
     expect(result.current.count).toBe(5);
@@ -31,5 +33,60 @@ describe('useCounter', () => {
       result.current.setVal(10);
     });
     expect(result.current.val).toBe(10);
+  });
+
+  it('should increment multiple times', () => {
+    const { result } = renderHook(() => useCounter());
+    act(() => {
+      result.current.increment();
+    });
+    act(() => {
+      result.current.increment();
+    });
+    expect(result.current.count).toBe(2);
+  });
+
+  it('should increment correctly after changing val', () => {
+    const { result } = renderHook(() => useCounter());
+    act(() => {
+      result.current.setVal(3);
+    });
+    act(() => {
+      result.current.increment();
+    });
+    expect(result.current.count).toBe(3);
+  });
+
+  it('should increment with negative val', () => {
+    const { result } = renderHook(() => useCounter());
+    act(() => {
+      result.current.setVal(-2);
+    });
+    act(() => {
+      result.current.increment();
+    });
+    expect(result.current.count).toBe(-2);
+  });
+
+  it('should increment with val set to zero', () => {
+    const { result } = renderHook(() => useCounter());
+    act(() => {
+      result.current.setVal(0);
+    });
+    act(() => {
+      result.current.increment();
+    });
+    expect(result.current.count).toBe(0);
+  });
+
+  it('should handle large val values', () => {
+    const { result } = renderHook(() => useCounter());
+    act(() => {
+      result.current.setVal(1000);
+    });
+    act(() => {
+      result.current.increment();
+    });
+    expect(result.current.count).toBe(1000);
   });
 });
